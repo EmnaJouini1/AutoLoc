@@ -3,7 +3,7 @@ package tn.esprit.autoloc.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -29,8 +29,12 @@ public class Client {
     @Column(length = 20)
     private String telephone;
 
-    @Column(length = 30)
-    private String numPermis;
-
-    private LocalDate dateInscription;
+    // Le chargement d'un client charge ses réservations
+    // La suppression du client supprime ses réservations
+    @OneToMany(
+            mappedBy = "client",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    private List<Reservation> reservations;
 }

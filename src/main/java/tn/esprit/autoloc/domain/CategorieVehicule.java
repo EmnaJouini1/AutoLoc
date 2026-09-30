@@ -4,5 +4,6 @@ public enum CategorieVehicule {
     ECONOMIQUE,
     COMPACTE,
     SUV,
-    LUXE
+    LUXE,
+    UTILITAIRE
 }

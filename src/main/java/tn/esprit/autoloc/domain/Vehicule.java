@@ -2,7 +2,9 @@ package tn.esprit.autoloc.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.math.*;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicule")
@@ -35,4 +37,31 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
+
+    // Une voiture peut avoir plusieurs réservations
+    // Le chargement du véhicule ne charge pas les réservations
+    // La suppression du véhicule supprime ses réservations
+    @OneToMany(
+            mappedBy = "vehicule",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private List<Reservation> reservations;
+
+    // Plusieurs véhicules peuvent appartenir à une agence
+    @ManyToOne
+    private Agence agence;
+
+    // Un véhicule peut avoir plusieurs maintenances
+    // Le chargement du véhicule ne charge pas les maintenances
+    @OneToMany(
+            mappedBy = "vehicule",
+            fetch = FetchType.LAZY
+    )
+    private List<Maintenance> maintenances;
+
+    // Un véhicule peut avoir plusieurs équipements
+    // Pas de cascade : chargement et suppression indépendants
+    @ManyToMany
+    private List<Equipement> equipements;
 }

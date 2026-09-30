@@ -26,4 +26,8 @@ public class Paiement {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ModePaiement modePaiement;
+
+    // Plusieurs paiements peuvent appartenir à un contrat
+    @ManyToOne
+    private Contrat contrat;
 }

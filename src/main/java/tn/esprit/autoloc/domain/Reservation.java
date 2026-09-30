@@ -17,11 +17,21 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReservation;
 
+    @Column(nullable = false)
     private LocalDate dateDebut;
 
+    @Column(nullable = false)
     private LocalDate dateFin;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private StatutReservation statut;
+    // Une réservation concerne un seul véhicule
+    @ManyToOne
+    private Vehicule vehicule;
+
+    // Une réservation appartient à un seul client
+    @ManyToOne
+    private Client client;
+
+    // Une réservation peut être associée à un contrat
+    @ManyToOne
+    private Contrat contrat;
 }

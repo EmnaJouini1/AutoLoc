@@ -21,7 +21,13 @@ public class Employe {
     @Column(nullable = false, length = 50)
     private String prenom;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private RoleEmploye roleEmploye;
+    @Column(length = 100)
+    private String email;
+
+    @Column(length = 20)
+    private String telephone;
+
+    // Plusieurs employés peuvent appartenir à une agence
+    @ManyToOne
+    private Agence agence;
 }
