@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5,7 +6,6 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Spring Boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +13,6 @@
 		<relativePath/>
 	</parent>
 
-	<!-- Project information -->
 	<groupId>tn.esprit.autoloc</groupId>
 	<artifactId>autoloc-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -21,12 +20,10 @@
 	<name>autoloc-api</name>
 	<description>AutoLoc API</description>
 
-	<!-- Java -->
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 
-	<!-- Dependencies -->
 	<dependencies>
 
 		<!-- Spring Data JPA -->
@@ -47,7 +44,7 @@
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 
-		<!-- MariaDB JDBC Driver -->
+		<!-- MariaDB -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
@@ -69,19 +66,21 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Tests -->
+		<!-- Tests JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Tests Validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Tests Web MVC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
@@ -96,9 +95,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Support JUnit 4 avec JUnit Platform -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
-	<!-- Build -->
 	<build>
 		<plugins>
 
@@ -108,13 +113,12 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- Compiler + Lombok -->
+			<!-- Compilation Java et Lombok -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 
 				<executions>
-
 					<execution>
 						<id>default-compile</id>
 						<phase>compile</phase>
@@ -148,7 +152,6 @@
 							</annotationProcessorPaths>
 						</configuration>
 					</execution>
-
 				</executions>
 			</plugin>
 

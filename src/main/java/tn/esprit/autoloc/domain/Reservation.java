@@ -1,3 +1,4 @@
+
 package tn.esprit.autoloc.domain;
 
 import jakarta.persistence.*;
@@ -31,7 +32,9 @@ public class Reservation {
     @ManyToOne
     private Client client;
 
-    // Une réservation peut être associée à un contrat
-    @ManyToOne
+    // Relation bidirectionnelle Réservation <-> Contrat
+    // La clé étrangère est dans la table reservation
+    @OneToOne
+    @JoinColumn(name = "contrat_id")
     private Contrat contrat;
 }

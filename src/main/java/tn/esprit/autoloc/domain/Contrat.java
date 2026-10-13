@@ -1,3 +1,4 @@
+
 package tn.esprit.autoloc.domain;
 
 import jakarta.persistence.*;
@@ -26,11 +27,15 @@ public class Contrat {
 
     private boolean valide;
 
-    // Un contrat peut avoir plusieurs paiements
     // Le chargement du contrat implique le chargement des paiements
     @OneToMany(
             mappedBy = "contrat",
-            fetch = FetchType.EAGER
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private List<Paiement> paiements;
+
+    // Relation bidirectionnelle Contrat <-> Réservation
+    @OneToOne(mappedBy = "contrat")
+    private Reservation reservation;
 }
