@@ -1,5 +1,7 @@
-
 package tn.esprit.autoloc;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +19,10 @@ import tn.esprit.autoloc.domain.CategorieVehicule;
 import tn.esprit.autoloc.domain.StatutVehicule;
 import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.repository.IAgenceRepository;
+import tn.esprit.autoloc.service.IAgenceService;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -30,6 +33,9 @@ public class AgenceTests {
 
     @Autowired
     private IAgenceRepository fullAgenceRepository;
+
+    @Autowired
+    private IAgenceService agenceService;
 
     // 1. Ajouter une agence et ses véhicules
     private void addAgence(CrudRepository<Agence, Long> repository) {
@@ -125,16 +131,15 @@ public class AgenceTests {
         loadAgence(fullAgenceRepository, "Full Repository");
     }
 
-    // 3. Charger toutes les agences triées par ID décroissant
+    // 3. Charger les agences triées par ID décroissant
     @Test
     public void loadSortedAgences() {
 
         System.out.println("\n=== Agences triées par ID décroissant ===");
 
-        Iterable<Agence> agences =
-                basicAgenceRepository.findAll(
-                        Sort.by(Sort.Direction.DESC, "idAgence")
-                );
+        Iterable<Agence> agences = basicAgenceRepository.findAll(
+                Sort.by(Sort.Direction.DESC, "idAgence")
+        );
 
         for (Agence agence : agences) {
             System.out.println("ID Agence : " + agence.getIdAgence());
@@ -145,7 +150,7 @@ public class AgenceTests {
         }
     }
 
-    // 4. Afficher les informations des agences sans leurs véhicules
+    // 4. Afficher les agences sans afficher leurs véhicules
     @Test
     public void loadAgencesSansVehicules() {
 
@@ -162,8 +167,7 @@ public class AgenceTests {
         }
     }
 
-    // 5. Pagination : afficher le nombre total de pages,
-    // la page en cours et les agences de chaque page
+    // 5. Pagination des agences
     @Test
     public void loadPagedAgences() {
 
@@ -205,5 +209,25 @@ public class AgenceTests {
             pageNumber++;
 
         } while (pageAgences.hasNext());
+    }
+
+    // 6. Tester la création d'une agence via le service
+    @Test
+    public void createAgence() {
+
+        Agence agence = new Agence();
+        agence.setNom("Agence Ariana Test");
+        agence.setAdresse("1 Rue Hedi");
+        agence.setTelephone("71585874");
+
+        Agence agenceCreee = agenceService.create(agence);
+
+        assertNotNull(agenceCreee);
+        assertNotNull(agenceCreee.getIdAgence());
+        assertEquals("Agence Ariana Test", agenceCreee.getNom());
+
+        System.out.println("Agence créée avec succès !");
+        System.out.println("ID : " + agenceCreee.getIdAgence());
+        System.out.println("Nom : " + agenceCreee.getNom());
     }
 }
