@@ -1,5 +1,7 @@
+
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,9 +40,7 @@ public class Vehicule {
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
 
-    // Une voiture peut avoir plusieurs réservations
-    // Le chargement du véhicule ne charge pas les réservations
-    // La suppression du véhicule supprime ses réservations
+    // Un véhicule peut avoir plusieurs réservations
     @OneToMany(
             mappedBy = "vehicule",
             fetch = FetchType.LAZY,
@@ -48,12 +48,13 @@ public class Vehicule {
     )
     private List<Reservation> reservations;
 
-    // Plusieurs véhicules peuvent appartenir à une agence
+    // Un véhicule appartient à une seule agence
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "id_agence")
     private Agence agence;
 
     // Un véhicule peut avoir plusieurs maintenances
-    // Le chargement du véhicule ne charge pas les maintenances
     @OneToMany(
             mappedBy = "vehicule",
             fetch = FetchType.LAZY
@@ -61,7 +62,6 @@ public class Vehicule {
     private List<Maintenance> maintenances;
 
     // Un véhicule peut avoir plusieurs équipements
-    // Pas de cascade : chargement et suppression indépendants
     @ManyToMany
     private List<Equipement> equipements;
 }
